@@ -1,4 +1,4 @@
-bin
-obj
-*.sln.DotSettings.user
-.vs
+.idea
+*.ipr
+*.iws
+target
