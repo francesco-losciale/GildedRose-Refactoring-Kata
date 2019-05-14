@@ -24,10 +24,10 @@ public class GildedRoseTest {
 
     @Test
     public void testWhenEndDayUpdateThenQualityDecreases() {
-        Item item = new Item("test", 1, 999);
+        Item item = new Item("test", 1, 50);
         GildedRose gildedRose = new GildedRose(new Item[]{ item });
         gildedRose.updateQuality();
-        assertEquals(998, item.quality);
+        assertEquals(49, item.quality);
     }
 
     @Test
@@ -40,10 +40,10 @@ public class GildedRoseTest {
 
     @Test
     public void testWhenEndDayAndSellInDateHasPassedThenQualityDecreasesTwice() {
-        Item item = new Item("test", 0, 999);
+        Item item = new Item("test", 0, 50);
         GildedRose gildedRose = new GildedRose(new Item[]{ item });
         gildedRose.updateQuality();
-        assertEquals(997, item.quality);
+        assertEquals(48, item.quality);
     }
 
     @Test
@@ -82,7 +82,7 @@ public class GildedRoseTest {
 
     @Test
     public void testWhenEndDayAndItemSulfurasThenNeverChangeQuality() {
-        Item item = new Item("Sulfuras, Hand of Ragnaros", 1, 10);
+        Item item = new Item("Sulfuras, Hand of Ragnaros", 0, 10);
         GildedRose gildedRose = new GildedRose(new Item[]{ item });
         gildedRose.updateQuality();
         assertEquals(10, item.quality);
