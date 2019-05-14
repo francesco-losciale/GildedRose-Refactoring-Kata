@@ -9,17 +9,18 @@ class GildedRose {
 
     public void updateQuality() {
         for (int i = 0; i < items.length; i++) {
-            ItemWrapper itemWrapper = new ItemWrapper(items[i]);
 
-            if (items[i].quality <= 0 || itemWrapper.isSulfuras()) {
+            ItemDecorator itemDecorator = ItemDecoratorFactory.create(items[i]);
+
+            if (items[i].quality <= 0) {
                 continue;
             }
 
             // decrease sellIn days
-            items[i].sellIn = items[i].sellIn - 1;
+            itemDecorator.changeSellIn();
 
             // update quality
-            itemWrapper.changeQuality();
+            itemDecorator.changeQuality();
         }
     }
 

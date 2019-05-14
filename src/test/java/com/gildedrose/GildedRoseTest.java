@@ -81,11 +81,11 @@ public class GildedRoseTest {
     }
 
     @Test
-    public void testWhenEndDayAndItemSulfurasThenNeverChangeQuality() {
+    public void testWhenEndDayAndItemSulfurasThenQualityIsAlways80() {
         Item item = new Item("Sulfuras, Hand of Ragnaros", 0, 10);
         GildedRose gildedRose = new GildedRose(new Item[]{ item });
         gildedRose.updateQuality();
-        assertEquals(10, item.quality);
+        assertEquals(80, item.quality);
     }
 
     @Test
