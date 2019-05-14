@@ -112,4 +112,11 @@ public class GildedRoseTest {
         assertEquals(12, item.quality);
     }
 
+    @Test
+    public void testWhenEndDayAndItemConjuredThenQualityDecreasesByTwo() {
+        Item item = new Item("Conjured", 10, 50);
+        GildedRose gildedRose = new GildedRose(new Item[]{ item });
+        gildedRose.updateQuality();
+        assertEquals(48, item.quality);
+    }
 }

@@ -12,6 +12,9 @@ public class ItemDecoratorFactory {
         if (item.name.equals("Sulfuras, Hand of Ragnaros")) {
             return new SulfurasItem(item);
         }
+        if (item.name.equals("Conjured")) {
+            return new ConjuredItem(item);
+        }
         return new NormalItem(item);
     }
 }
