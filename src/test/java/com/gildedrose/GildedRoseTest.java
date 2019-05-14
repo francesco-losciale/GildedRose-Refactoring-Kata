@@ -14,90 +14,94 @@ public class GildedRoseTest {
 
     @Test
     public void testWhenItemIsCreatedThenSellInDateIsCorrect() {
-        assertEquals(1, new Item("test", 1, 1).sellIn);
+        assertEquals(989, new Item("test", 989, 1).sellIn);
     }
     
     @Test
     public void testWhenItemIsCreatedThenQualityIsCorrect() {
-        assertEquals(1, new Item("test", 1,1).quality);
+        assertEquals(989, new Item("test", 1,989).quality);
     }
 
     @Test
-    public void testWhenEndOfDayThenQualityIsLowered() {
-        int initialQuality = 10;
-        Item item = new Item("test", 1, initialQuality);
+    public void testWhenEndDayUpdateThenQualityDecreases() {
+        Item item = new Item("test", 1, 999);
         GildedRose gildedRose = new GildedRose(new Item[]{ item });
         gildedRose.updateQuality();
-        assertEquals(initialQuality - 1, item.quality);
+        assertEquals(998, item.quality);
     }
 
     @Test
-    public void testWhenEndOfDayThenSellInDateIsLowered() {
-        int sellInDate = 10;
-        Item item = new Item("test", sellInDate, 1);
+    public void testWhenEndDayUpdateThenSellInDecreases() {
+        Item item = new Item("test", 999, 1);
         GildedRose gildedRose = new GildedRose(new Item[]{ item });
         gildedRose.updateQuality();
-        assertEquals(sellInDate - 1, item.sellIn);
+        assertEquals(998, item.sellIn);
     }
 
     @Test
-    public void testWhenSellInDateHasPassedThenQualityDegradesTwiceAsFast() {
-        int initialQuality = 10;
-        Item item = new Item("test", 0, initialQuality);
+    public void testWhenEndDayAndSellInDateHasPassedThenQualityDecreasesTwice() {
+        Item item = new Item("test", 0, 999);
         GildedRose gildedRose = new GildedRose(new Item[]{ item });
         gildedRose.updateQuality();
-        assertEquals(8, item.quality);
+        assertEquals(997, item.quality);
     }
 
     @Test
-    public void testWhenQualityIsZeroThenNotDecreasesMore() {
-        int initialQuality = 0;
-        Item item = new Item("test", 1, initialQuality);
+    public void testWhenEndDayAndQualityIsNegativeOrZeroThenQualityIsIgnored() {
+        Item item1 = new Item("test", 1, -1);
+        Item item2 = new Item("test", 1, 0);
+        GildedRose gildedRose = new GildedRose(new Item[]{ item1, item2 });
+        gildedRose.updateQuality();
+        assertEquals(-1, item1.quality);
+        assertEquals(0, item2.quality);
+    }
+
+    @Test
+    public void testWhenEndDayAndItemAgedBrieThenQualityIncreases() {
+        Item item = new Item("Aged Brie", 10, 5);
         GildedRose gildedRose = new GildedRose(new Item[]{ item });
         gildedRose.updateQuality();
-        assertEquals(0, item.quality);
+        assertEquals(6, item.quality);
     }
 
     @Test
-    public void testWhenItemIsAgedBrieThenQualityIncreases() {
-        int initialQuality = 10;
-        Item item = new Item("Aged Brie", 1, initialQuality);
-        GildedRose gildedRose = new GildedRose(new Item[]{ item });
-        gildedRose.updateQuality();
-        assertEquals(11, item.quality);
-    }
-
-    @Test
-    public void testWhenQualityOfItemIsFiftyThenNeverIncreasesMore() {
-        int initialQuality = 50;
-        Item item = new Item("Aged Brie", 1, initialQuality);
+    public void testWhenEndDayAndQualityIs50ThenQualityIsIgnored() {
+        Item item = new Item("Aged Brie", 1, 50);
         GildedRose gildedRose = new GildedRose(new Item[]{ item });
         gildedRose.updateQuality();
         assertEquals(50, item.quality);
     }
 
     @Test
-    public void testWhenItemSulfurasThenNeverDecreasesInQuality() {
-        int initialQuality = 10;
-        Item item = new Item("Sulfuras, Hand of Ragnaros", 1, initialQuality);
+    public void testWhenEndDayAndItemSulfurasThenNeverSold() {
+        Item item = new Item("Sulfuras, Hand of Ragnaros", 10, 1);
         GildedRose gildedRose = new GildedRose(new Item[]{ item });
         gildedRose.updateQuality();
-        assertEquals(initialQuality, item.quality);
+        assertEquals(10, item.sellIn);
     }
 
     @Test
-    @Parameters({
-            "6, 20, 22",
-            "8, 20, 22",
-            "10, 20, 22",
-            "3, 20, 23",
-            "5, 20, 23"
-    })
-    public void testWhenItemBackstagePassesThenQualityIncreases(int sellIn, int initialQuality, int expectedQuality) {
-        Item item = new Item("Backstage passes to a TAFKAL80ETC concert", sellIn, initialQuality);
+    public void testWhenEndDayAndItemSulfurasThenNeverChangeQuality() {
+        Item item = new Item("Sulfuras, Hand of Ragnaros", 1, 10);
         GildedRose gildedRose = new GildedRose(new Item[]{ item });
         gildedRose.updateQuality();
-        assertEquals(expectedQuality, item.quality);
+        assertEquals(10, item.quality);
+    }
+
+    @Test
+    public void testWhenEndDayAndItemBackstagePassesAndSellInLessThanFiveThenQualityIncreasesByThree() {
+        Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 4, 10);
+        GildedRose gildedRose = new GildedRose(new Item[]{ item });
+        gildedRose.updateQuality();
+        assertEquals(13, item.quality);
+    }
+
+    @Test
+    public void testWhenEndDayAndItemBackstagePassesAndSellInLessThanTenThenQualityIncreasesByTwo() {
+        Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 8, 10);
+        GildedRose gildedRose = new GildedRose(new Item[]{ item });
+        gildedRose.updateQuality();
+        assertEquals(12, item.quality);
     }
 
 }
