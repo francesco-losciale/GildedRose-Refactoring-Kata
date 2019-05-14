@@ -89,6 +89,14 @@ public class GildedRoseTest {
     }
 
     @Test
+    public void testWhenEndDayAndSellInPassedAndItemBackstageThenQualityDropToZero() {
+        Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 0, 10);
+        GildedRose gildedRose = new GildedRose(new Item[]{ item });
+        gildedRose.updateQuality();
+        assertEquals(0, item.quality);
+    }
+
+    @Test
     public void testWhenEndDayAndItemBackstagePassesAndSellInLessThanFiveThenQualityIncreasesByThree() {
         Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 4, 10);
         GildedRose gildedRose = new GildedRose(new Item[]{ item });
