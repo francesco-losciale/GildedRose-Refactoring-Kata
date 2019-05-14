@@ -38,6 +38,9 @@ public class ItemWrapper {
                 }
             }
         } else {
+            if (this.item.sellIn < 0) {
+                this.item.quality = this.item.quality - 1;
+            }
             this.item.quality = this.item.quality - 1;
         }
     }

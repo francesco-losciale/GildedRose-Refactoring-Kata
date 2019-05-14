@@ -15,13 +15,11 @@ class GildedRose {
                 continue;
             }
 
-            itemWrapper.changeQuality();
-
+            // decrease sellIn days
             items[i].sellIn = items[i].sellIn - 1;
 
-            if (items[i].sellIn < 0) {
-                itemWrapper.changeQuality();
-            }
+            // update quality
+            itemWrapper.changeQuality();
         }
     }
 
